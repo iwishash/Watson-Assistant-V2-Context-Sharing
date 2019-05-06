@@ -1,0 +1,152 @@
+{
+  "name": "Watson Assistant Weather Bot",
+  "intents": [
+    {
+      "intent": "hello_message",
+      "examples": [
+        {
+          "text": "Hello."
+        },
+        {
+          "text": "Hi."
+        },
+        {
+          "text": "Hello Watson."
+        },
+        {
+          "text": "Hi Watson."
+        }
+      ],
+      "description": "Initial message shown to user"
+    },
+    {
+      "intent": "show_weather",
+      "examples": [
+        {
+          "text": "Show me the weather in Delhi."
+        },
+        {
+          "text": "Show me the weather in Dallas."
+        },
+        {
+          "text": "What is the weather in Amsterdam?"
+        },
+        {
+          "text": "What is the weather in New York today?"
+        }
+      ],
+      "description": "Display the current weather to the user."
+    }
+  ],
+  "entities": [],
+  "language": "en",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2018-09-20"
+    }
+  },
+  "description": "",
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_1_1556816382220"
+    },
+    {
+      "type": "standard",
+      "title": "Display weather - city missing",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The watson assistant can not find a context variable called \"city\". "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "#show_weather && !$city",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_3_1556816749023",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "title": "Display Weather",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The current weather in $city is 25 degrees celcius. "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "#show_weather && $city",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_1_1556816382220",
+      "previous_sibling": "node_3_1556816749023"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hello I am a Watson weather bot. Just say \"what is the weather in San Jose today?\""
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "metadata": {},
+      "conditions": "#hello_message",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "workspace_id": "29cd4699-a543-40c0-86e4-1bf73ea5adc3",
+  "counterexamples": [],
+  "system_settings": {
+    "tooling": {
+      "store_generic_responses": true
+    }
+  },
+  "learning_opt_out": false,
+  "status": "Available"
+}
